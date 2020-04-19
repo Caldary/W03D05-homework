@@ -23,4 +23,25 @@ class Customer
         SqlRunner.run(sql, values)
     end
 
+    def update()
+        sql = "UPDATE customers SET (name, funds) = ($1, $2) WHERE id = $3;"
+        values = [@name, @funds, @id]
+        SqlRunner.run(sql, values)
+    end
+
+    def self.map_items(customer_data)
+        result = customer_data.map { |customer| Customer.new(customer)}
+        return result
+    end
+
+    def self.all()
+        sql = "SELECT * FROM customers"
+        customers = SqlRunner.run(sql)
+        return Customer.map_items(customers)
+    end
+
+    def self.delete_all()
+        SqlRunner.run("DELETE FROM customers;")
+    end
+
 end
