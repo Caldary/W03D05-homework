@@ -5,10 +5,11 @@ require_relative("models/customers")
 require_relative("models/films")
 
 Customer.delete_all()
+Film.delete_all()
 
 customer1 = Customer.new({"name" => "Paulo", "funds" => 500})
 customer1.save()
-customer1.funds = "250"
+customer1.funds = 250
 customer1.update()
 
 
@@ -19,6 +20,8 @@ customer3.save()
 
 film1 = Film.new({"title" => "The Joker", "price" => 10})
 film1.save()
+film1.price = 5
+film1.update()
 
 
 
