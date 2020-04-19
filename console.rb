@@ -17,7 +17,8 @@ customer2.save()
 customer3 = Customer.new({"name" => "Sienna", "funds" => 10})
 customer3.save()
 
-
+film1 = Film.new({"title" => "The Joker", "price" => 10})
+film1.save()
 
 
 
