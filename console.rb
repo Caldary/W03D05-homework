@@ -6,3 +6,8 @@ require_relative("models/films")
 
 customer1 = Customer.new({"name" => "Paulo", "funds" => 500})
 customer1.save()
+customer1.delete()
+
+
+binding.pry
+nil
