@@ -9,12 +9,11 @@ class Ticket
         @id = options["id"] if options["id"]
         @customer_id = options["customer_id"]
         @film_id = options["film_id"]
-        @price = options["price"]
     end
 
     def save()
-        sql = "INSERT INTO tickets (customer_id, film_id, price) VALUES ($1, $2, $3) RETURNING id;"
-        values = [@customer_id, @film_id, @price]
+        sql = "INSERT INTO tickets (customer_id, film_id) VALUES ($1, $2) RETURNING id;"
+        values = [@customer_id, @film_id]
         @id = SqlRunner.run(sql, values)[0]["id"].to_i
     end
 
@@ -26,20 +25,20 @@ class Ticket
 
     def update()
         sql = "UPDATE tickets SET (customer_id, film_id, price) = ($1, $2, $3) WHERE id = $4;"
-        values = [@customer_id, @film_id, @price, @id]
+        values = [@customer_id, @film_id, @id]
         SqlRunner.run(sql, values)
     end
 
 
     def customer()
-        sql = "SELECT * FROM customers WHERE id = $1;"
+        sql = "SELECT * FROM customers WHERE customers.id = $1;"
         values = [@customer_id]
         customer_hash = SqlRunner.run(sql, values).first()
         return Customer.new(customer_hash)
     end
 
     def film()
-        sql = "SELECT * FROM films WHERE id = $1;"
+        sql = "SELECT * FROM films WHERE films.id = $1;"
         values = [@film_id]
         film_hash = SqlRunner.run(sql, values).first()
         return Film.new(film_hash)
