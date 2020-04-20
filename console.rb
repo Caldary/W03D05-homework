@@ -6,6 +6,7 @@ require_relative("models/films")
 
 Customer.delete_all()
 Film.delete_all()
+Ticket.delete_all()
 
 customer1 = Customer.new({"name" => "Paulo", "funds" => 500})
 customer1.save()
@@ -22,6 +23,12 @@ film1 = Film.new({"title" => "The Joker", "price" => 10})
 film1.save()
 film1.price = 5
 film1.update()
+
+film2 = Film.new({"title" => "The Godfather", "price" => 15})
+film2.save()
+
+ticket1 = Ticket.new({"customer_id" => customer1.id, "film_id" => film1.id, "price" => 10})
+ticket1.save()
 
 
 

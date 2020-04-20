@@ -6,7 +6,7 @@ class Ticket
     attr_reader :id
 
     def initialize(options)
-        @id = options["id"] id options["id"]
+        @id = options["id"] if options["id"]
         @customer_id = options["customer_id"]
         @film_id = options["film_id"]
         @price = options["price"]
@@ -14,7 +14,7 @@ class Ticket
 
     def save()
         sql = "INSERT INTO tickets (customer_id, film_id, price) VALUES ($1, $2, $3) RETURNING id;"
-        values = [@customer_id, @film_id, @fee]
+        values = [@customer_id, @film_id, @price]
         @id = SqlRunner.run(sql, values)[0]["id"].to_i
     end
 
@@ -29,6 +29,22 @@ class Ticket
         values = [@customer_id, @film_id, @price, @id]
         SqlRunner.run(sql, values)
     end
+
+
+    def customer()
+        sql = "SELECT * FROM customers WHERE id = $1;"
+        values = [@customer_id]
+        customer_hash = SqlRunner.run(sql, values).first()
+        return Customer.new(customer_hash)
+    end
+
+    def film()
+        sql = "SELECT * FROM films WHERE id = $1;"
+        values = [@film_id]
+        film_hash = SqlRunner.run(sql, values).first()
+        return Film.new(film_hash)
+    end
+
 
     def self.map_items(tickets_array)
         return tickets_array.map {|ticket| Casting.new(ticket)}
